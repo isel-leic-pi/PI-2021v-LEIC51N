@@ -1,0 +1,14 @@
+{
+  "name": "lesson10",
+  "version": "1.0.0",
+  "description": "Node application for lessom 10",
+  "main": "http-client-with-http-module.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luís Falcão",
+  "license": "ISC",
+  "dependencies": {
+    "urllib": "^2.36.1"
+  }
+}

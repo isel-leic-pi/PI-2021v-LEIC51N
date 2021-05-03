@@ -1,0 +1,16 @@
+
+
+
+
+GET     /jokes          -- Read All Jokes
+GET     /jokes/{id}     -- Read A single joke
+POST    /jokes          -- Create a Joke
+
+DELETE  /jokes/{id}     -- Delete a Jokes
+PUT     /jokes/{id}     -- Updates a Joke
+
+POST    /jokes/{id}/delete  -- Delete a Jokes
+POST    /jokes/{id}/update  -- Updates a Joke
+
+
+

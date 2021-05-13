@@ -20,6 +20,7 @@ paths:
     get:
       summary: searches jokes
       operationId: searchJokes
+  
       tags:
         - jokes
       description: 
@@ -145,7 +146,7 @@ paths:
         name: joke
         description: Joke to add
         schema:
-          $ref: '#/definitions/Joke'
+          $ref: '#/definitions/NewJoke'
       responses:
         201:
           description: joke created

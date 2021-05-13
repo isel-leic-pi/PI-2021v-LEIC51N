@@ -1,4 +1,5 @@
 const jokesServices = require("./jokes-services")
+const httpErrors = require('./errors/http-errors')
 
 
 module.exports = {
@@ -10,42 +11,45 @@ module.exports = {
 }
 
 function getJokes(req, rsp) {
-  jokesServices.getJokes(processJokes)
-
-
-  function processJokes(err, jokes) {
-    if(err) {
-      rsp.status = 500
-      return rsp.end(`Error ocurred ${err}`)
-    }
-
-    rsp.json(jokes)
-  }
+  jokesServices.getJokes(processJokeData(rsp))
 }
 
 function addJoke(req, rsp) {
-  rsp.send("Add Joke")
-}
+  console.log("Add Joke")
 
+  req.body.id = req.params.jokeId;
+  jokesServices.addJoke(req.body, processJokeData(rsp))
+}
 
 function getJoke(req, rsp) {
-  jokesServices.getJoke(req.params.jokeId, processJoke)
+  jokesServices.getJoke(req.params.jokeId, processJokeData(rsp))
 
-  function processJoke(err, joke) {
-    if(err) {
-      rsp.status = 500
-      return rsp.end(`Error ocurred ${err}`)
-    }
-
-    
-    rsp.json(joke)
-  }
 }
 function deleteJoke(req, rsp) {
-  rsp.send(`Delete Joke ${req.params.jokeId}`)
+  console.log(`Delete Joke ${req.params.jokeId}`)
+  jokesServices.deleteJoke(req.params.jokeId, processJokeData(rsp))
 }
 
 function editJoke(req, rsp) {
-  rsp.send(`Edit Joke ${req.params.jokeId}`)
+  console.log(`Edit Joke ${req.params.jokeId}`)
+
+  req.body.id = req.params.jokeId;
+
+  jokesServices.editJoke(req.body, processJokeData(rsp))
+
+}
+
+
+function processJokeData(rsp) {
+  return function(err, joke) {
+    if(err) {
+      const httpErr = httpErrors.convertToHttpError(err)
+      console.log(httpErr)
+      rsp.statusCode = httpErr.status
+      return rsp.json(httpErr.body)
+    }
+    
+    rsp.json(joke)
+  }
 }
 

@@ -1,11 +1,11 @@
-const PORT = 1904
+const PORT = process.argv[2] || 1904
 
-const jokesApi = require("./jokes-web-api")
+const jokesData = require('./jokes-db-mem')
+const jokesServices = require('./jokes-services')(jokesData)
+const jokesApi = require('./jokes-web-api')(jokesServices)
 const express = require('express')
 
-
 const app = express()
-
 
 app.get('/', (req, res) =>  res.send('1904 was Glorious year'))
 
@@ -17,8 +17,9 @@ app.put('/jokes/:jokeId', jokesApi.editJoke)
 
 
 app.listen(PORT, () => {
-  console.log(`Jokes app listening at http://localhost:${PORT}`)
+  console.log(`Jokes app listening at http://localhost:${PORT}.`)
 })
+
 
 
 

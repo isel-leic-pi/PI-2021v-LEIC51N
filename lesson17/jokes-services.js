@@ -1,43 +1,50 @@
-const jokesDb = require("./jokes-db-mem")
-const uuid = require('uuid')
 const errors = require('./errors/jokes-errors')
+const JOKE_ID_LEN = 22
 
-module.exports = {
-    getJokes: getJokes,
-    getJoke: getJoke,
-    addJoke: addJoke,
-    deleteJoke: deleteJoke,
-    editJoke: editJoke
-}
-
-function getJokes(cb) {
-    jokesDb.getJokes(cb)
-}
-
-function getJoke(jokeId, cb) {
-    console.log(`jokeId: ${jokeId}`)
-    if(!uuid.validate(jokeId)) {
-        return cb(errors.INVALID_UUID(jokeId))
+module.exports = function (jokesData) {
+    return {
+        getJokes: getJokes,
+        getJoke: getJoke,
+        addJoke: addJoke,
+        deleteJoke: deleteJoke,
+        editJoke: editJoke
     }
 
-    jokesDb.getJoke(jokeId, processJoke)
 
+    function getJokes(cb) {
+        jokesData.getJokes(cb)
+    }
 
-    function processJoke(err, joke) {
-        if(!joke) {
-            cb(`Joke with id ${jokeId} not found`)
+    function getJoke(jokeId, cb) {
+        console.log(`jokeId: ${jokeId}`)
+        if (validId(jokeId)) {
+            return cb(errors.INVALID_JOKE_ID(jokeId))
         }
 
-        cb(null, joke)
+        jokesData.getJoke(jokeId, processJoke)
+
+
+        function processJoke(err, joke) {
+            if (!joke) {
+                return cb(errors.NOT_FOUND(jokeId))
+            }
+
+            cb(null, joke)
+        }
     }
-}
 
+    function addJoke(newJoke, cb) {
+    }
 
-function addJoke(newJoke, cb) {
-}
+    function deleteJoke(jokeId, cb) {
+    }
 
-function deleteJoke(jokeId, cb) {
-}
+    function editJoke(newJoke, cb) {
+    }
 
-function editJoke(newJoke, cb) {
+    /// Auxiliary functions
+    function validId(jokeId) {
+        return jokeId.length != JOKE_ID_LEN
+    }
+
 }

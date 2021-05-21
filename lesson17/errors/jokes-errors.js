@@ -1,20 +1,20 @@
 
 module.exports = {
-    INVALID_UUID: invalidUuid,
+    INVALID_JOKE_ID: invalidJokeId,
     NOT_FOUND: notFound
 }
 
 
-function invalidUuid(uuid) {
+function invalidJokeId(id) {
     return {
-        code: "e3",
-        error: `${uuid.toString()} is not a valid uuid`
+        code: "e1",
+        error: `${id.toString()} is not a valid id`
     }
 }
 
-function notFound(uuid) {
+function notFound(id) {
     return {
         code: "e2",
-        error: `${uuid} not found`
+        error: `${id} not found`
     }
 }

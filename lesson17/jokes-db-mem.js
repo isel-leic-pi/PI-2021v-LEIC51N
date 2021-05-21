@@ -6,7 +6,8 @@ module.exports = {
 }
 
 
-const jokes = [{
+const jokes = [
+    {
     "categories": [],
     "created_at": "2020-01-05 13:42:18.823766",
     "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
